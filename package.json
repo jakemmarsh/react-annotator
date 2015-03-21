@@ -1,0 +1,47 @@
+{
+  "name": "react-annotator",
+  "version": "0.0.1",
+  "author": "Jake Marsh <jakemmarsh@gmail.com>",
+  "description": "A React mixin to allow for user annotations directly on images.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jakemmarsh/react-annotator.git"
+  },
+  "private": false,
+  "license": "MIT",
+  "keywords": [
+    "ReactJS",
+    "react",
+    "image",
+    "annotate",
+    "annotation"
+  ],
+  "engines": {
+    "node": ">=0.12.x"
+  },
+  "dependencies": {
+    "lodash": "^3.5.x"
+  },
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-react": "^3.0.0",
+    "gulp-strip-debug": "^1.0.2",
+    "jest-cli": "^0.4.0",
+    "run-sequence": "^1.0.2"
+  },
+  "jest": {
+    "rootDir": ".",
+    "testPathDirs": [
+      "<rootDir>"
+    ],
+    "testDirectoryName": "__tests__",
+    "testFileExtensions": [
+      "js"
+    ]
+  },
+  "scripts": {
+    "test": "jest",
+    "prepublish": "gulp build"
+  }
+}
