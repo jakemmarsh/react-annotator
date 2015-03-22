@@ -6,6 +6,8 @@ module.exports = {
 
   Indicator: require('./dist/js/Indicator'),
 
-  Tooltip: require('./dist/js/Tooltip')
+  Annotation: require('./dist/js/Annotation'),
+
+  AnnotatorForm: require('./dist/js/AnnotatorForm')
 
 };

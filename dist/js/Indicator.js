@@ -33,7 +33,7 @@ var Indicator = React.createClass({displayName: "Indicator",
     };
 
     return (
-      React.createElement("div", {className: "tour-indicator", style: styles, onClick: this.props.handleIndicatorClick})
+      React.createElement("div", {className: "annotator-indicator", style: styles, onClick: this.setAnnotation})
     );
   }
 
