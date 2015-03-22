@@ -5,7 +5,6 @@ var React = require('react/addons');
 var Indicator = React.createClass({displayName: "Indicator",
 
   propTypes: {
-    cssPosition: React.PropTypes.string.isRequired,
     xPos: React.PropTypes.oneOfType([
       React.PropTypes.number,
       React.PropTypes.string
@@ -14,26 +13,47 @@ var Indicator = React.createClass({displayName: "Indicator",
       React.PropTypes.number,
       React.PropTypes.string
     ]).isRequired,
-    handleIndicatorClick: React.PropTypes.func.isRequired
+    showAnnotation: React.PropTypes.func.isRequired,
+    closeAnnotation: React.PropTypes.func.isRequired,
   },
 
   getDefaultProps: function() {
     return {
-      cssPosition: 'absolute',
       xPos: -1000,
       yPos: -1000
     };
   },
 
+  showAnnotation: function(evt) {
+    var xPos = this.props.xPos;
+    var yPos = this.props.yPos/* + React.findDOMNode(this).clientHeight/2*/;
+
+    evt.preventDefault();
+
+    this.props.showAnnotation({
+      annotation: this.props.annotation,
+      xPos: xPos,
+      yPos: yPos
+    });
+  },
+
+  closeAnnotation: function(evt) {
+    evt.preventDefault();
+    this.props.closeAnnotation();
+  },
+
   render: function() {
     var styles = {
-      'position': this.props.cssPosition === 'fixed' ? 'fixed' : 'absolute',
+      'position': 'absolute',
       'top': this.props.yPos,
       'left': this.props.xPos
     };
 
     return (
-      React.createElement("div", {className: "annotator-indicator", style: styles, onClick: this.setAnnotation})
+      React.createElement("div", {className: "annotator-indicator", 
+           style: styles, 
+           onMouseOver: this.showAnnotation, 
+           onMouseLeave: this.closeAnnotation})
     );
   }
 

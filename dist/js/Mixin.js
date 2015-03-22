@@ -11,36 +11,90 @@ module.exports = function(settings) {
 
   var mixin = {
 
+    _target: null,
+
     getInitialState: function() {
       return {
         annotations: settings.annotations || [],
-        visibleAnnotation: settings.defaultAnnotation || null,
+        visibleAnnotation: null,
+        annotationXPos: null,
+        annotationYPos: null,
         addingAnnotation: false,
         annotationText: null,
-        xPos: null,
-        yPos: null
+        newAnnotationXPos: null,
+        newAnnotationYPos: null
       };
     },
 
-    _renderLayer: function() {
+    _renderAnnotatorLayer: function() {
       // By calling this method in componentDidMount() and componentDidUpdate(), you're effectively
       // creating a "wormhole" that funnels React's hierarchical updates through to a DOM node on an
       // entirely different part of the page.
-      React.render(this.renderAnnotation(), this._target);
-    },
-
-    _unrenderLayer: function() {
-      React.unmountComponentAtNode(this._target);
-    },
-
-    componentDidUpdate: function(prevProps, prevState) {
-      var hasNewAnnotation = this.state.visibleAnnotation && !_.isEqual(this.state.visibleAnnotation, prevState.visibleAnnotation);
-      var hasNewX = this.state.xPos !== prevState.xPos;
-      var hasNewY = this.state.yPos !== prevState.yPos;
-
-      if ( hasNewAnnotation || hasNewX || hasNewY ) {
-        this._renderLayer();
+      if ( !this._target ) {
+        this._target = document.createElement('div');
+        document.body.appendChild(this._target);
       }
+
+      React.render(this.renderAnnotationOrForm(), this._target);
+    },
+
+    _unrenderAnnotatorLayer: function() {
+      if ( this._target ) {
+        React.unmountComponentAtNode(this._target);
+      }
+    },
+
+    _beginAddProcess: function(evt) {
+      var xPos = parseInt(evt.clientX) - parseInt(this._annotationTarget.clientLeft);
+      var yPos = parseInt(evt.clientY) - parseInt(this._annotationTarget.clientTop);
+
+      this.setState({
+        addingAnnotation: true,
+        newAnnotationXPos: xPos,
+        newAnnotationYPos: yPos
+      });
+    },
+
+    _saveAnnotation: function() {
+      this.addAnnotation({
+        text: this.state.annotationText,
+        newAnnotationXPos: this.state.newAnnotationXPos,
+        newAnnotationYPos: this.state.newAnnotationYPos
+      }, function() {
+        this.setState({
+          annotationText: '',
+          newAnnotationXPos: null,
+          newAnnotationYPos: null
+        });
+      }.bind(this));
+    },
+
+    _setVisibleAnnotation: function(options, cb) {
+      cb = cb || function() {};
+
+      console.log('setting as visible:', options.annotation);
+
+      this.setState({
+        visibleAnnotation: options.annotation,
+        annotationXPos: options.xPos,
+        annotationYPos: options.yPos
+      }, function() {
+        cb();
+        this._renderAnnotatorLayer();
+      }.bind(this));
+    },
+
+    _closeAnnotation: function(cb) {
+      cb = cb || function() {};
+
+      this.setState({
+        annotation: null,
+        annotationXPos: null,
+        annotationYPos: null
+      }, function() {
+        cb();
+        this._unrenderAnnotatorLayer();
+      }.bind(this));
     },
 
     componentDidMount: function() {
@@ -50,57 +104,23 @@ module.exports = function(settings) {
         // Appending to the body is easier than managing the z-index of everything on the page.
         // It's also better for accessibility and makes stacking a snap (since components will stack
         // in mount order).
-        this._target = document.createElement('div');
-        document.body.appendChild(this._target);
-        this._renderLayer();
+        this._renderAnnotatorLayer();
       }
 
       if ( this._annotationTarget ) {
-        this._annotationTarget.addEventListener('click', this.beginAddProcess, false);
+        this._annotationTarget.addEventListener('click', this._beginAddProcess, false);
       }
     },
 
     componentWillUnmount: function() {
-      this._unrenderLayer();
-      document.body.removeChild(this._target);
-      this._annotationTarget.removeEventListener('click', this.beginAddProcess, false);
-    },
+      if ( this._target ) {
+        this._unrenderAnnotatorLayer();
+        document.body.removeChild(this._target);
+      }
 
-    beginAddProcess: function(evt) {
-      var xPos = evt.clientX - this._annotationTarget.clientLeft;
-      var yPos = evt.clientY - this._annotationTarget.clientTop;
-
-      this.setState({
-        addingAnnotation: true,
-        xPos: xPos,
-        yPos: yPos
-      });
-    },
-
-    saveAnnotation: function() {
-      this.addAnnotation({
-        text: this.state.annotationText,
-        xPos: this.state.xPos,
-        yPos: this.state.yPos
-      }, function() {
-        this.setState({
-          annotationText: '',
-          xPos: null,
-          yPos: null
-        });
-      }.bind(this));
-    },
-
-    setVisibleAnnotation: function(annotation, cb) {
-      cb = cb || function() {};
-
-      this.setState({ visibleAnnotation: annotation }, cb);
-    },
-
-    closeAnnotation: function(cb) {
-      cb = cb || function() {};
-
-      this.setState({ annotation: null }, cb);
+      if ( this._annotationTarget ) {
+        this._annotationTarget.removeEventListener('click', this._beginAddProcess, false);
+      }
     },
 
     serializeAnnotations: function() {
@@ -117,8 +137,8 @@ module.exports = function(settings) {
       this.setState({ annotations: annotationsCopy }, cb);
     },
 
-    deleteAnnotation: function(annotationToDelete, cb) {
-      var annotationsCopy = _.reject(this.settings.annotations, function(annotation) {
+    removeAnnotation: function(annotationToDelete, cb) {
+      var annotationsCopy = _.reject(this.state.annotations, function(annotation) {
         return _.isEqual(annotation, annotationToDelete);
       });
 
@@ -128,27 +148,30 @@ module.exports = function(settings) {
     },
 
     renderAnnotationIndicators: function() {
-      return this.settings.annotations.map(function(annotation, index) {
+      return _.map(this.state.annotations, function(annotation, index) {
         return (
           React.createElement(Indicator, {key: index, 
                      xPos: annotation.xPos, 
                      yPos: annotation.yPos, 
-                     annotation: annotation})
+                     annotation: annotation, 
+                     setAnnotation: this._setVisibleAnnotation, 
+                     closeAnnotation: this._closeAnnotation})
         );
-      });
+      }.bind(this));
     },
 
-    renderAnnotation: function() {
+    renderAnnotationOrForm: function() {
       var element = null;
 
       if ( this.state.visibleAnnotation ) {
-        return (
-          React.createElement(Annotation, {annotation: this.state.visibleAnnotation})
+        element = (
+          React.createElement(Annotation, {annotation: this.state.visibleAnnotation, 
+                      xPos: this.state.annotationXPos, 
+                      yPos: this.state.annotationYPos})
         );
       } else if ( this.state.addingAnnotation ) {
-        // TODO: what should this element be? A form?
-        return (
-          React.createElement("div", null)
+        element = (
+          React.createElement(AnnotatorForm, null)
         );
       }
 

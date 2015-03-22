@@ -5,7 +5,6 @@ var React = require('react/addons');
 var Annotation = React.createClass({displayName: "Annotation",
 
   propTypes: {
-    cssPosition: React.PropTypes.string.isRequired,
     xPos: React.PropTypes.oneOfType([
       React.PropTypes.number,
       React.PropTypes.string
@@ -14,33 +13,28 @@ var Annotation = React.createClass({displayName: "Annotation",
       React.PropTypes.number,
       React.PropTypes.string
     ]).isRequired,
-    text: React.PropTypes.string.isRequired,
+    annotation: React.PropTypes.object.isRequired,
     closeAnnotation: React.PropTypes.func.isRequired
   },
 
   getDefaultProps: function() {
     return {
-      cssPosition: 'absolute',
-      xPos: -1000,
-      yPos: -1000,
-      text: ''
+      annotation: {}
     };
   },
 
   render: function() {
     var styles = {
-      'position': this.props.cssPosition === 'fixed' ? 'fixed' : 'absolute',
+      'position': 'absolute',
       'top': this.props.yPos,
       'left': this.props.xPos
     };
 
+    console.log('annotation:', this.props.annotation);
+
     return (
-      React.createElement("div", null, 
-        React.createElement("div", {className: "annotator-backdrop", onClick: this.props.closeAnnotation}), 
-        React.createElement("div", {className: "annotator-tooltip", style: styles}, 
-          React.createElement("p", null, this.props.text || ''), 
-          React.createElement("div", {className: "annotator-btn close", onClick: this.props.closeAnnotation}, "Close")
-        )
+      React.createElement("div", {className: "annotator-tooltip", style: styles}, 
+        React.createElement("p", null, this.props.annotation.text || '')
       )
     );
   }
