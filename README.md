@@ -108,8 +108,8 @@ In addition, when an empty space is clicked on the parent element an annotation 
 ##### Annotation
 
 ```html
-<div class="annotator-annotation">
-  {Text of annotation.}
+<div class="annotator-tooltip">
+  <p>{Text of annotation.}</p>
 </div>
 ```
 
@@ -117,11 +117,7 @@ In addition, when an empty space is clicked on the parent element an annotation 
 
 ```html
 <form class="annotator-form">
-  <textarea class="annotator-form-textarea"></textarea>
-  <div class="annotator-form-button-container">
-    <button class="annotator-btn cancel">Cancel</button>
-    <button class="annotator-btn save">Save</button>
-  </div>
+  <textarea></textarea>
 </form>
 ```
 
