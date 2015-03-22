@@ -25,6 +25,7 @@
   "devDependencies": {
     "del": "^1.1.1",
     "gulp": "^3.8.11",
+    "gulp-if": "^1.2.5",
     "gulp-react": "^3.0.0",
     "gulp-strip-debug": "^1.0.2",
     "jest-cli": "^0.4.0",

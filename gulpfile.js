@@ -5,6 +5,7 @@ var del         = require('del');
 var react       = require('gulp-react');
 var runSequence = require('run-sequence');
 var stripDebug  = require('gulp-strip-debug');
+var gulpif      = require('gulp-if');
 
 gulp.task('clean', function(cb) {
 
@@ -23,19 +24,25 @@ gulp.task('scripts', function() {
 
   return gulp.src('./lib/js/**/*.js')
   .pipe(react())
-  .pipe(stripDebug())
+  .pipe(gulpif(global.isProd, stripDebug()))
   .pipe(gulp.dest('./dist/js/'));
 
 });
 
 gulp.task('dev', function() {
 
-  gulp.watch('./lib/js/**/*.js',   ['scripts']);
+  global.isProd = false;
+
+  runSequence(['styles', 'scripts']);
+
+  gulp.watch('./lib/js/**/*.js',      ['scripts']);
   gulp.watch('./lib/styles/**/*.css', ['styles']);
 
 });
 
-gulp.task('build', ['clean'], function() {
+gulp.task('prod', ['clean'], function() {
+
+  global.isProd = true;
 
   return runSequence(['styles', 'scripts']);
 
