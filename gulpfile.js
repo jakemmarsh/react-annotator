@@ -6,9 +6,9 @@ var react       = require('gulp-react');
 var runSequence = require('run-sequence');
 var stripDebug  = require('gulp-strip-debug');
 
-gulp.task('clean', function() {
+gulp.task('clean', function(cb) {
 
-  return del(['./dist/css/*', './dist/js/*']);
+  return del(['./dist/css/*', './dist/js/*'], cb);
 
 });
 
