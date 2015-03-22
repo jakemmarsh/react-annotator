@@ -1,0 +1,76 @@
+.annotator-indicator,
+.annotator-annotation,
+.annotator-form {
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing:    border-box;
+  box-sizing:         border-box;
+
+  -webkit-box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow:    0px 1px 1.5px rgba(0, 0, 0, 0.5);
+  box-shadow:         0px 1px 1.5px rgba(0, 0, 0, 0.5);
+
+}
+
+.annotator-annotation,
+.annotator-form,
+.annotator-btn {
+
+  padding: 10px;
+
+  background-color: #ffffff;
+  -webkit-border-radius: 3px;
+  -moz-border-radius:    3px;
+  -ms-border-radius:     3px;
+  border-radius:         3px;
+
+}
+
+.annotator-indicator {
+
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background-color: #ff0000;
+  border: 5px solid #ffffff;
+  -webkit-border-radius: 100%;
+  -moz-border-radius:    100%;
+  -ms-border-radius:     100%;
+  border-radius:         100%;
+
+}
+
+.annotator-form {
+
+}
+
+  .annotator-form .annotator-form-button-container {
+
+  }
+
+    .annotator-form .annotator-form-button-container:before,
+    .annotator-form .annotator-form-button-container:after {
+      content: " ";
+      display: table;
+    }
+
+    .annotator-form .annotator-form-button-container:after {
+      clear: both;
+    }
+
+    .annotator-form .annotator-form-button-container .annotator-btn {
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+      .annotator-form .annotator-form-button-container .annotator-btn.close {
+        float: left;
+        width: 35%;
+        background-color: #e67383;
+      }
+
+      .annotator-form .annotator-form-button-container .annotator-btn.save {
+        float: right;
+        width: 55%;
+        background-color: #3f94d0;
+      }
