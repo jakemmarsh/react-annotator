@@ -1,7 +1,7 @@
 react-annotator
 ===============
 
-A React mixin to allow for user annotations directly on images. An example can be seen [here](http://jakemmarsh.com/react-annotator/).
+A React mixin to allow for user annotations directly on images, similar to [Red Pen](https://redpen.io/). An example can be seen [here](http://jakemmarsh.com/react-annotator/).
 
 ---
 

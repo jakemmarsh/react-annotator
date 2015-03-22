@@ -20,7 +20,8 @@
     "node": ">=0.12.x"
   },
   "dependencies": {
-    "lodash": "^3.5.x"
+    "lodash": "^3.5.x",
+    "react": "^0.13.1"
   },
   "devDependencies": {
     "del": "^1.1.1",
