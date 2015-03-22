@@ -95,7 +95,7 @@ This returns the list of annotations currently within the mixin's state. This is
 
 Some basic styling is provided in `/dist/css/annotator.css`. This can either be included directly in your project, or used as a base for your own custom styles. Below, the HTML structure of the annotation system is also outlined for custom styling.
 
-The annotation system consists of two main elements for each annotation: an `indicator` and a `tooltip`. An indicator is a small, simple element positioned absolutely on the parent element. Upon click, the associated annotation is triggered which the user can then read and dismiss.
+The annotation system consists of two main elements for each annotation: an `indicator` and a `tooltip`. An indicator is a small, simple element positioned absolutely on the parent element. Upon hover, the associated annotation is triggered which the user can then read.
 
 In addition, when an empty space is clicked on the parent element an annotation `form` is triggered. This allows the user to enter the annotation text to be saved for that point.
 
