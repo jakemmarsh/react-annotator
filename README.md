@@ -3,7 +3,7 @@ react-annotator
 
 A React mixin to allow for user annotations directly on images, similar to [Red Pen](https://redpen.io/). An example can be seen [here](http://jakemmarsh.com/react-annotator/).
 
----
+---i
 
 ### Getting Started
 
@@ -71,7 +71,7 @@ Each "annotation" in the array represents one indicator on the parent element, w
 
 ### Methods
 
-Upon including the mixin, a handful of functions will be available to your component. Some of these are interned strictly for internal use in the mixin (all prefixed with an underscore), but there are a few that are intended to provide you with more complex options and interactions. These are outlined below.
+Upon including the mixin, a handful of functions will be available to your component. Some of these are intended strictly for internal use in the mixin (all prefixed with an underscore), but there are a few that are intended to provide you with more complex options and interactions. These are outlined below.
 
 ##### `setAnnotations(annotations, cb)`
 
