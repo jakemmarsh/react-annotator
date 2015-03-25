@@ -10,7 +10,7 @@ A React mixin to allow for user annotations directly on images, similar to [Red 
 1. `npm install --save react-annotator`
 2. `var ReactAnnotatorMixin = require('react-annotator').Mixin`
 3. `mixins: [ReactAnnotatorMixin({settings})]`
-4. call `this.renderAnnotationIndicators()` somewhere in the component's `render()` function in order to render the individual indicators.
+4. call `this.renderAnnotationIndicators()` in the component's `render()` function, in order to render the individual indicators at the top-level of the component element.
 
 ```javascript
 var ReactAnnotatorMixin = require('react-annotator').Mixin;
@@ -47,6 +47,8 @@ var App = React.createClass({
 
 });
 ```
+
+**Note:** Any interactive elements within the parent component must call `event.stopPropagation()` on click to prevent triggering the new annotation form.
 
 ---
 
