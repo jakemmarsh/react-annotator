@@ -58,6 +58,7 @@ A Javascript object is passed to the `ReactAnnotatorMixin` to specify options, a
 
 - `element` (string): the element selector for the parent element which the annotations are intended for. No default value, and the annotation system will not be rendered without a valid element.
 - `annotations` (array): the array of annotations to be displayed on the parent element. Defaults to an empty array.
+- `addCallback` (function): a function to be called any time a new annotation is entered. The callback is invoked with a single parameter, an object representing the annotation saved (of the format below). Defaults to an empty function.
 
 Each "annotation" in the array represents one indicator on the parent element, which triggers its textual annotation when triggered. An annotation has the following structure:
 
@@ -78,6 +79,10 @@ Upon including the mixin, a handful of functions will be available to your compo
 ##### `setAnnotations(annotations, cb)`
 
 This function is intended to provide you with a method to asynchronously define your annotations (if they need to be fetched from a database, etc.) It takes a list of annotations (of the form discussed earlier), along with an optional callback function as parameters. This will completely overwrite any existing annotations, setting `this.state.annotations` equal to the `annotations` parameter. Once the state is updated, the callback function will be invoked.
+
+##### `setAddCallback(cb)`
+
+This function allows you to asynchronously define the callback that will be invoked any time a new annotation is entered (mentioned above under Options). Useful when you need to access `props` or `state` in the callback.
 
 ##### `addAnnotation(annotation, cb)`
 
