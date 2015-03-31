@@ -92,7 +92,7 @@ This function takes an annotation (of the form discussed earlier), along with an
 
 This function takes an annotation (of the form discussed earlier), along with an optional callback function as parameters. It iterates over the current list of annotations, removing any determined to be equal to the annotation passed (using [lodash](https://lodash.com/)'s `_.isEqual` function.) The state is then updated accordingly, and the callback function is invoked.
 
-##### `serializeAnnotations()`
+##### `getAnnotations()`
 
 This returns the list of annotations currently within the mixin's state. This is essentially a wrapper for the value `this.state.annotations`.
 
