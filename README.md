@@ -1,7 +1,7 @@
 react-annotator [![npm version](https://badge.fury.io/js/react-annotator.svg)](http://badge.fury.io/js/react-annotator)
 =======================================================================================================================
 
-A React mixin to allow for user annotations directly on elements, similar to [Red Pen](https://redpen.io/).
+A React mixin to allow for user annotations directly on elements, similar to [Red Pen](https://redpen.io/). An example can be seen [here](http://jakemmarsh.com/react-annotator/).
 
 ---
 
@@ -15,15 +15,15 @@ A React mixin to allow for user annotations directly on elements, similar to [Re
 ```javascript
 var ReactAnnotatorMixin = require('react-annotator').Mixin;
 var annotatorSettings = {
-  element: '.annotator-parent-image',
+  element: '.annotator-target',
   annotations: [
     {
-      text: 'This is an annotation on the image.',
+      text: 'This is an annotation on the element.',
       xPos: 127,
       yPos: 431
     },
     {
-      text: 'This is another annotation on the image.',
+      text: 'This is another annotation on the element.',
       xPos: 513,
       yPos: 289
     }
@@ -39,6 +39,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
+        <div className="annotator-target" />
         ...
         {this.renderAnnotationIndicators()}
       </div>
