@@ -1,7 +1,7 @@
-react-annotator
-===============
+react-annotator [![npm version](https://badge.fury.io/js/react-annotator.svg)](http://badge.fury.io/js/react-annotator)
+=======================================================================================================================
 
-A React mixin to allow for user annotations directly on images, similar to [Red Pen](https://redpen.io/). An example can be seen [here](http://jakemmarsh.com/react-annotator/).
+A React mixin to allow for user annotations directly on elements, similar to [Red Pen](https://redpen.io/).
 
 ---
 
